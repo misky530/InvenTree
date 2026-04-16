@@ -1651,6 +1651,14 @@ msgstr "Errors exist for one or more form fields"
 msgid "Update"
 msgstr "Update"
 
+#: src/components/forms/KeepFormOpenSwitch.tsx:18
+msgid "Keep form open"
+msgstr "Keep form open"
+
+#: src/components/forms/KeepFormOpenSwitch.tsx:19
+msgid "Keep form open after submitting"
+msgstr "Keep form open after submitting"
+
 #: src/components/forms/AuthenticationForm.tsx:48
 #: src/components/forms/AuthenticationForm.tsx:74
 #: src/functions/auth.tsx:83
@@ -4748,7 +4756,23 @@ msgstr "Subscribe to notifications for this part"
 msgid "Parent part category"
 msgstr "Parent part category"
 
-#: src/forms/PartForms.tsx:231
+#: src/forms/PartForms.tsx:221
+msgid "Default location for parts in this category"
+msgstr "Default location for parts in this category"
+
+#: src/forms/PartForms.tsx:226
+msgid "Default keywords"
+msgstr "Default keywords"
+
+#: src/forms/PartForms.tsx:227
+msgid "Default keywords for parts in this category"
+msgstr "Default keywords for parts in this category"
+
+#: src/forms/PartForms.tsx:232
+msgid "Parts may not be directly assigned to a structural category, but may be assigned to child categories."
+msgstr "Parts may not be directly assigned to a structural category, but may be assigned to child categories."
+
+#: src/forms/PartForms.tsx:246
 msgid "Subscribe to notifications for this category"
 msgstr "Subscribe to notifications for this category"
 

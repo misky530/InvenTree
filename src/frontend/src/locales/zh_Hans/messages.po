@@ -1656,6 +1656,14 @@ msgstr "一个或多个表单字段存在错误"
 msgid "Update"
 msgstr "更新"
 
+#: src/components/forms/KeepFormOpenSwitch.tsx:18
+msgid "Keep form open"
+msgstr "保持表单打开"
+
+#: src/components/forms/KeepFormOpenSwitch.tsx:19
+msgid "Keep form open after submitting"
+msgstr "提交后保持表单打开"
+
 #: src/components/forms/AuthenticationForm.tsx:48
 #: src/components/forms/AuthenticationForm.tsx:74
 #: src/functions/auth.tsx:83
@@ -4753,7 +4761,23 @@ msgstr "订阅此零件的通知"
 msgid "Parent part category"
 msgstr "上级零件类别"
 
-#: src/forms/PartForms.tsx:231
+#: src/forms/PartForms.tsx:221
+msgid "Default location for parts in this category"
+msgstr "此类别零件的默认库存地点"
+
+#: src/forms/PartForms.tsx:226
+msgid "Default keywords"
+msgstr "默认关键字"
+
+#: src/forms/PartForms.tsx:227
+msgid "Default keywords for parts in this category"
+msgstr "此类别零件的默认关键字"
+
+#: src/forms/PartForms.tsx:232
+msgid "Parts may not be directly assigned to a structural category, but may be assigned to child categories."
+msgstr "零件可能无法直接分配到结构类别，但可以分配到子类别。"
+
+#: src/forms/PartForms.tsx:246
 msgid "Subscribe to notifications for this category"
 msgstr "订阅此类别的通知"
 

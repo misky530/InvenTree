@@ -213,18 +213,31 @@ export function partCategoryFields({
   const fields: ApiFormFieldSet = useMemo(() => {
     const fields: ApiFormFieldSet = {
       parent: {
+        label: t`Parent Category`,
         description: t`Parent part category`,
         required: false
       },
-      name: {},
-      description: {},
+      name: {
+        label: t`Name`
+      },
+      description: {
+        label: t`Description`
+      },
       default_location: {
+        label: t`Default Location`,
+        description: t`Default location for parts in this category`,
         filters: {
           structural: false
         }
       },
-      default_keywords: {},
-      structural: {},
+      default_keywords: {
+        label: t`Default keywords`,
+        description: t`Default keywords for parts in this category`
+      },
+      structural: {
+        label: t`Structural`,
+        description: t`Parts may not be directly assigned to a structural category, but may be assigned to child categories.`
+      },
       starred: {
         field_type: 'boolean',
         label: t`Subscribed`,
