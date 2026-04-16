@@ -17,6 +17,7 @@ import { useServerApiState } from '../states/ServerApiState';
 import { useUserState } from '../states/UserState';
 import { fetchGlobalStates } from '../states/states';
 import { showLoginNotification } from './notifications';
+import { WAREHOUSE_FORCED_LOCALE } from './warehouseMode';
 import { generateUrl } from './urls';
 
 export function followRedirect(navigate: NavigateFunction, redirect: any) {
@@ -279,14 +280,8 @@ function observeProfile() {
 
   if (user) {
     // set profile language
-    if (user.profile?.language && language != user.profile.language) {
-      showNotification({
-        title: t`Language changed`,
-        message: t`Your active language has been changed to the one set in your profile`,
-        color: 'blue',
-        icon: 'language'
-      });
-      setLanguage(user.profile.language, true);
+    if (language != WAREHOUSE_FORCED_LOCALE) {
+      setLanguage(WAREHOUSE_FORCED_LOCALE, true);
     }
 
     // set profile theme

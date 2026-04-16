@@ -44,13 +44,11 @@ import {
   getGlobalImporterState,
   openGlobalImporter
 } from '../../states/ImporterState';
-import { useServerApiState } from '../../states/ServerApiState';
 import { InvenTreeTableInternal } from '../../tables/InvenTreeTable';
 import { RenderInstance } from '../render/Instance';
 
 export const useInvenTreeContext = () => {
-  const [locale, host] = useLocalState(useShallow((s) => [s.language, s.host]));
-  const [server] = useServerApiState(useShallow((s) => [s.server]));
+  const [host] = useLocalState(useShallow((s) => [s.host]));
   const navigate = useNavigate();
   const user = useUserState();
   const { colorScheme } = useMantineColorScheme();
@@ -70,7 +68,7 @@ export const useInvenTreeContext = () => {
       user: user,
       host: host,
       i18n: i18n,
-      locale: locale || server.default_locale || defaultLocale,
+      locale: defaultLocale,
       api: api,
       queryClient: queryClient,
       navigate: navigate,
@@ -117,7 +115,6 @@ export const useInvenTreeContext = () => {
     user,
     host,
     api,
-    locale,
     queryClient,
     navigate,
     globalSettings,

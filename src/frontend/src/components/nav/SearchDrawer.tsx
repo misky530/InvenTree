@@ -47,6 +47,7 @@ import {
 } from '@lib/functions/Navigation';
 import { showNotification } from '@mantine/notifications';
 import { api } from '../../App';
+import { isWarehouseSearchModel } from '../../functions/warehouseMode';
 import { useUserSettingsState } from '../../states/SettingsStates';
 import { useUserState } from '../../states/UserState';
 import { RenderInstance } from '../render/Instance';
@@ -381,7 +382,9 @@ export function SearchDrawer({
 
   // Construct a list of search queries based on user permissions
   const searchQueries: SearchQuery[] = useMemo(() => {
-    return searchQueryList.filter((q) => q.enabled);
+    return searchQueryList.filter(
+      (q) => q.enabled && isWarehouseSearchModel(q.model)
+    );
   }, [searchQueryList]);
 
   // Re-fetch data whenever the search term is updated

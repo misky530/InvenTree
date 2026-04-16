@@ -1,11 +1,9 @@
 import { t } from '@lingui/core/macro';
 import { Container, Drawer, Flex, Group, Space } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 
 import { ModelType } from '@lib/enums/ModelType';
-import { UserRoles } from '@lib/enums/Roles';
-import { AboutLinks, DocumentationLinks } from '../../defaults/links';
+import { isWarehouseManager } from '../../functions/warehouseMode';
 import useInstanceName from '../../hooks/UseInstanceName';
 import * as classes from '../../main.css';
 import { useGlobalSettingsState } from '../../states/SettingsStates';
@@ -13,9 +11,6 @@ import { useUserState } from '../../states/UserState';
 import { InvenTreeLogo } from '../items/InvenTreeLogo';
 import { type MenuLinkItem, MenuLinks } from '../items/MenuLinks';
 import { StylishText } from '../items/StylishText';
-
-// TODO @matmair #1: implement plugin loading and menu item generation see #5269
-const plugins: MenuLinkItem[] = [];
 
 export function NavigationDrawer({
   opened,
@@ -44,17 +39,7 @@ function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
 
   const globalSettings = useGlobalSettingsState();
 
-  const [scrollHeight, setScrollHeight] = useState(0);
-  const ref = useRef(null);
-  const { height } = useViewportSize();
-
   const title = useInstanceName();
-
-  // update scroll height when viewport size changes
-  useEffect(() => {
-    if (ref.current == null) return;
-    setScrollHeight(height - ref.current['clientHeight'] - 65);
-  });
 
   // Construct menu items
   const menuItemsNavigate: MenuLinkItem[] = useMemo(() => {
@@ -80,37 +65,11 @@ function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
         icon: 'stock'
       },
       {
-        id: 'build',
-        title: t`Manufacturing`,
-        link: '/manufacturing/',
-        hidden: !user.hasViewRole(UserRoles.build),
-        icon: 'build'
-      },
-      {
-        id: 'purchasing',
-        title: t`Purchasing`,
-        link: '/purchasing/',
-        hidden: !user.hasViewRole(UserRoles.purchase_order),
-        icon: 'purchase_orders'
-      },
-      {
-        id: 'sales',
-        title: t`Sales`,
-        link: '/sales/',
-        hidden: !user.hasViewRole(UserRoles.sales_order),
-        icon: 'sales_orders'
-      },
-      {
-        id: 'users',
-        title: t`Users`,
-        link: '/core/index/users',
-        icon: 'user'
-      },
-      {
-        id: 'groups',
-        title: t`Groups`,
-        link: '/core/index/groups',
-        icon: 'group'
+        id: 'report-center',
+        title: t`Report Center`,
+        link: '/settings/admin/reports',
+        icon: 'report',
+        hidden: !isWarehouseManager(user)
       }
     ];
   }, [user]);
@@ -125,7 +84,7 @@ function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
         hidden: !globalSettings.isSet('BARCODE_ENABLE')
       }
     ];
-  }, [user, globalSettings]);
+  }, [globalSettings]);
 
   const menuItemsSettings: MenuLinkItem[] = useMemo(() => {
     return [
@@ -140,33 +99,9 @@ function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
         title: t`User Settings`,
         link: '/settings/user',
         icon: 'user'
-      },
-      {
-        id: 'system-settings',
-        title: t`System Settings`,
-        link: '/settings/system',
-        icon: 'system',
-        hidden: !user.isStaff()
-      },
-      {
-        id: 'admin-center',
-        title: t`Admin Center`,
-        link: '/settings/admin',
-        icon: 'admin',
-        hidden: !user.isStaff()
       }
     ];
-  }, [user]);
-
-  const menuItemsDocumentation: MenuLinkItem[] = useMemo(
-    () => DocumentationLinks(),
-    []
-  );
-
-  const menuItemsAbout: MenuLinkItem[] = useMemo(
-    () => AboutLinks(globalSettings, user),
-    []
-  );
+  }, []);
 
   return (
     <Flex direction='column' mih='100vh' p={16}>
@@ -191,31 +126,7 @@ function DrawerContent({ closeFunc }: Readonly<{ closeFunc?: () => void }>) {
           links={menuItemsAction}
           beforeClick={closeFunc}
         />
-        <Space h='md' />
-        {plugins.length > 0 ? (
-          <MenuLinks
-            title={t`Plugins`}
-            links={plugins}
-            beforeClick={closeFunc}
-          />
-        ) : (
-          <></>
-        )}
       </Container>
-      <div ref={ref}>
-        <Space h='md' />
-        <MenuLinks
-          title={t`Documentation`}
-          links={menuItemsDocumentation}
-          beforeClick={closeFunc}
-        />
-        <Space h='md' />
-        <MenuLinks
-          title={t`About`}
-          links={menuItemsAbout}
-          beforeClick={closeFunc}
-        />
-      </div>
     </Flex>
   );
 }

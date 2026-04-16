@@ -111,7 +111,7 @@ class ReportConfig(AppConfig):
             {
                 'file': 'part_label.html',
                 'name': 'InvenTree Part Label',
-                'description': 'Sample part label',
+                'description': 'Sample part label with Code128 barcode',
                 'model_type': 'part',
             },
             {
@@ -121,21 +121,21 @@ class ReportConfig(AppConfig):
                 'model_type': 'part',
             },
             {
-                'file': 'stockitem_qr.html',
-                'name': 'InvenTree Stock Item Label (QR)',
-                'description': 'Sample stock item label with QR code',
+                'file': 'stockitem_barcode.html',
+                'name': 'InvenTree Stock Item Label (Code128)',
+                'description': 'Sample stock item label with Code128 barcode',
                 'model_type': 'stockitem',
             },
             {
-                'file': 'stocklocation_qr_and_text.html',
-                'name': 'InvenTree Stock Location Label (QR + Text)',
-                'description': 'Sample stock item label with QR code and text',
+                'file': 'stocklocation_barcode_and_text.html',
+                'name': 'InvenTree Stock Location Label (Code128 + Text)',
+                'description': 'Sample stock location label with Code128 barcode and text',
                 'model_type': 'stocklocation',
             },
             {
-                'file': 'stocklocation_qr.html',
-                'name': 'InvenTree Stock Location Label (QR)',
-                'description': 'Sample stock location label with QR code',
+                'file': 'stocklocation_barcode.html',
+                'name': 'InvenTree Stock Location Label (Code128)',
+                'description': 'Sample stock location label with Code128 barcode',
                 'model_type': 'stocklocation',
             },
             {

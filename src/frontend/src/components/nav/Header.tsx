@@ -30,6 +30,7 @@ import { api } from '../../App';
 import type { NavigationUIFeature } from '../../components/plugins/PluginUIFeatureTypes';
 import { getNavTabs } from '../../defaults/links';
 import { generateUrl } from '../../functions/urls';
+import { WAREHOUSE_MODE_ENABLED } from '../../functions/warehouseMode';
 import { usePluginUIFeature } from '../../hooks/UsePluginUIFeature';
 import * as classes from '../../main.css';
 import { useLocalState } from '../../states/LocalState';
@@ -297,7 +298,8 @@ function NavTabs() {
       );
     });
     // dynamic content
-    extraNavs.forEach((nav) => {
+    if (!WAREHOUSE_MODE_ENABLED) {
+      extraNavs.forEach((nav) => {
       _tabs.push(
         <Tabs.Tab
           value={nav.options.title}
@@ -309,7 +311,8 @@ function NavTabs() {
           {nav.options.title}
         </Tabs.Tab>
       );
-    });
+      });
+    }
 
     return _tabs;
   }, [extraNavs, navTabs, user, withIcons]);

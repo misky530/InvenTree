@@ -6,7 +6,6 @@ import { useUserState } from '../../states/UserState';
 import type { DashboardWidgetProps } from './DashboardWidget';
 import ColorToggleDashboardWidget from './widgets/ColorToggleWidget';
 import GetStartedWidget from './widgets/GetStartedWidget';
-import LanguageSelectDashboardWidget from './widgets/LanguageSelectWidget';
 import NewsWidget from './widgets/NewsWidget';
 import QueryCountDashboardWidget from './widgets/QueryCountDashboardWidget';
 import StocktakeDashboardWidget from './widgets/StocktakeDashboardWidget';
@@ -209,7 +208,7 @@ function BuiltinGettingStartedWidgets(): DashboardWidgetProps[] {
 }
 
 function BuiltinSettingsWidgets(): DashboardWidgetProps[] {
-  return [ColorToggleDashboardWidget(), LanguageSelectDashboardWidget()];
+  return [ColorToggleDashboardWidget()];
 }
 
 function BuiltinActionWidgets(): DashboardWidgetProps[] {

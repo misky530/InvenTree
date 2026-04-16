@@ -4,7 +4,6 @@ import { IconServer } from '@tabler/icons-react';
 import { useShallow } from 'zustand/react/shallow';
 import { useServerApiState } from '../../states/ServerApiState';
 import { ColorToggle } from '../items/ColorToggle';
-import { LanguageToggle } from '../items/LanguageToggle';
 
 export function AuthFormOptions({
   hostname,
@@ -19,7 +18,6 @@ export function AuthFormOptions({
     <Center mx={'md'}>
       <Group>
         <ColorToggle />
-        <LanguageToggle />
         {window.INVENTREE_SETTINGS.show_server_selector && (
           <Tooltip label={hostname}>
             <ActionIcon

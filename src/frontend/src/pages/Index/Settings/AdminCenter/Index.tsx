@@ -33,6 +33,10 @@ import type {
 import { PanelGroup } from '../../../../components/panels/PanelGroup';
 import { GlobalSettingList } from '../../../../components/settings/SettingList';
 import { Loadable } from '../../../../functions/loading';
+import {
+  isWarehouseAdminGroup,
+  isWarehouseAdminPanel
+} from '../../../../functions/warehouseMode';
 import { useUserState } from '../../../../states/UserState';
 
 const ReportTemplatePanel = Loadable(
@@ -109,7 +113,7 @@ export default function AdminCenter() {
   const user = useUserState();
 
   const adminCenterPanels: PanelType[] = useMemo(() => {
-    return [
+    const panels = [
       {
         name: 'home',
         label: t`Home`,
@@ -238,9 +242,11 @@ export default function AdminCenter() {
         hidden: !user.hasViewRole(UserRoles.admin)
       }
     ];
+
+    return panels.filter((panel) => isWarehouseAdminPanel(panel.name));
   }, [user]);
   const grouping: PanelGroupType[] = useMemo(() => {
-    return [
+    const groups = [
       { id: 'home', label: '', panelIDs: ['home'] },
       {
         id: 'ops',
@@ -286,24 +292,25 @@ export default function AdminCenter() {
         panelIDs: ['plugin', 'machine']
       }
     ];
+
+    return groups.filter((group) => isWarehouseAdminGroup(group.id));
   }, []);
 
   return (
     <>
-      <PageTitle title={t`Admin Center`} />
+      <PageTitle title={t`Report Center`} />
       {user.isStaff() ? (
         <Stack gap='xs'>
           <SettingsHeader
             label='admin'
-            title={t`Admin Center`}
-            subtitle={t`Advanced Options`}
+            title={t`Report Center`}
+            subtitle={t`Reports and label templates`}
           />
           <PanelGroup
-            pageKey='admin-center'
+            pageKey='report-center'
             panels={adminCenterPanels}
             groups={grouping}
             collapsible={true}
-            model='admincenter'
             id={null}
           />
         </Stack>

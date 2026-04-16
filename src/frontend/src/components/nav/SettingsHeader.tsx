@@ -3,6 +3,7 @@ import { Group, SegmentedControl, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { WAREHOUSE_MODE_ENABLED } from '../../functions/warehouseMode';
 import { useUserState } from '../../states/UserState';
 import { StylishText } from '../items/StylishText';
 
@@ -34,7 +35,7 @@ export function SettingsHeader({
         </Group>
         <Group>{subtitle ? <Text c='dimmed'>{subtitle}</Text> : null}</Group>
       </Stack>
-      {user.isStaff() && (
+      {user.isStaff() && !WAREHOUSE_MODE_ENABLED && (
         <SegmentedControl
           data={[
             { value: 'user', label: t`User Settings` },

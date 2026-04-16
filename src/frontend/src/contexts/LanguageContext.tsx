@@ -4,13 +4,11 @@ import { LoadingOverlay, Text } from '@mantine/core';
 import { type JSX, useEffect, useRef, useState } from 'react';
 
 import { useStoredTableState } from '@lib/states/StoredTableState';
-import { useShallow } from 'zustand/react/shallow';
 import { api } from '../App';
-import { useLocalState } from '../states/LocalState';
-import { useServerApiState } from '../states/ServerApiState';
+import { WAREHOUSE_FORCED_LOCALE } from '../functions/warehouseMode';
 import { fetchGlobalStates } from '../states/states';
 
-export const defaultLocale = 'en';
+export const defaultLocale = WAREHOUSE_FORCED_LOCALE;
 
 /*
  * Function which returns a record of supported languages.
@@ -62,33 +60,6 @@ export const getSupportedLanguages = (): Record<string, string> => {
 export function LanguageContext({
   children
 }: Readonly<{ children: JSX.Element }>) {
-  const [language] = useLocalState(useShallow((state) => [state.language]));
-  const [server] = useServerApiState(useShallow((state) => [state.server]));
-
-  const [activeLocale, setActiveLocale] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Update the locale based on prioritization:
-    // 1. Locally selected locale
-    // 2. Server default locale
-    // 3. English (fallback)
-
-    let locale: string | null = activeLocale;
-
-    if (!!language) {
-      locale = language;
-    } else if (!!server.default_locale) {
-      locale = server.default_locale;
-    } else {
-      locale = defaultLocale;
-    }
-
-    if (locale != activeLocale) {
-      setActiveLocale(locale);
-      activateLocale(locale);
-    }
-  }, [activeLocale, language, server.default_locale, defaultLocale]);
-
   const [loadedState, setLoadedState] = useState<
     'loading' | 'loaded' | 'error'
   >('loading');
@@ -97,7 +68,7 @@ export function LanguageContext({
   useEffect(() => {
     isMounted.current = true;
 
-    let lang: string = language || defaultLocale;
+    let lang: string = WAREHOUSE_FORCED_LOCALE;
 
     // Ensure that the selected language is supported
     if (!Object.keys(getSupportedLanguages()).includes(lang)) {
@@ -108,25 +79,7 @@ export function LanguageContext({
       .then(() => {
         if (isMounted.current) setLoadedState('loaded');
 
-        /*
-         * Configure the default Accept-Language header for all requests.
-         * - Locally selected locale
-         * - Server default locale
-         * - en-us (backup)
-         */
-        const locales: (string | undefined)[] = [];
-
-        if (!!lang && lang != 'pseudo-LOCALE') {
-          locales.push(lang);
-        }
-
-        if (!!server.default_locale) {
-          locales.push(server.default_locale);
-        }
-
-        if (locales.indexOf('en-us') < 0) {
-          locales.push('en-us');
-        }
+        const locales: (string | undefined)[] = [lang];
 
         // Ensure that the locales are properly formatted
         const new_locales = locales
@@ -155,7 +108,7 @@ export function LanguageContext({
     return () => {
       isMounted.current = false;
     };
-  }, [language]);
+  }, []);
 
   if (loadedState === 'loading') {
     return <LoadingOverlay visible={true} />;
@@ -178,10 +131,7 @@ export function LanguageContext({
 
 // This function is used to determine the locale to activate based on the prioritization rules.
 export function getPriorityLocale(): string {
-  const serverDefault = useServerApiState.getState().server.default_locale;
-  const userDefault = useLocalState.getState().language;
-
-  return userDefault || serverDefault || defaultLocale;
+  return WAREHOUSE_FORCED_LOCALE;
 }
 
 export async function activateLocale(locale: string | null) {

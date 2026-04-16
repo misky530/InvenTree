@@ -155,9 +155,9 @@ export const routes = (
       <Route path='notifications/*' element={<Notifications />} />,
       <Route path='scan/' element={<Scan />} />,
       <Route path='settings/'>
-        <Route index element={<Navigate to='admin/' />} />
+        <Route index element={<Navigate to='user/' />} />
         <Route path='admin/*' element={<AdminCenter />} />
-        <Route path='system/*' element={<SystemSettings />} />
+        <Route path='system/*' element={<Navigate to='/' replace />} />
         <Route path='user/*' element={<UserSettings />} />
       </Route>
       <Route path='part/'>
@@ -171,36 +171,17 @@ export const routes = (
         <Route path='item/:id/*' element={<StockDetail />} />
       </Route>
       <Route path='manufacturing/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<BuildIndex />} />
-        <Route path='build-order/:id/*' element={<BuildDetail />} />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Route>
       <Route path='purchasing/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<PurchasingIndex />} />
-        <Route path='purchase-order/:id/*' element={<PurchaseOrderDetail />} />
-        <Route path='supplier/:id/*' element={<SupplierDetail />} />
-        <Route path='supplier-part/:id/*' element={<SupplierPartDetail />} />
-        <Route path='manufacturer/:id/*' element={<ManufacturerDetail />} />
-        <Route
-          path='manufacturer-part/:id/*'
-          element={<ManufacturerPartDetail />}
-        />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Route>
-      <Route path='company/:id/*' element={<CompanyDetail />} />
+      <Route path='company/:id/*' element={<Navigate to='/' replace />} />
       <Route path='sales/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<SalesIndex />} />
-        <Route path='sales-order/:id/*' element={<SalesOrderDetail />} />
-        <Route path='shipment/:id/*' element={<SalesOrderShipmentDetail />} />
-        <Route path='return-order/:id/*' element={<ReturnOrderDetail />} />
-        <Route path='customer/:id/*' element={<CustomerDetail />} />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Route>
       <Route path='core/'>
-        <Route index element={<Navigate to='index/' />} />
-        <Route path='index/*' element={<CoreIndex />} />
-        <Route path='user/:id/*' element={<UserDetail />} />
-        <Route path='group/:id/*' element={<GroupDetail />} />
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Route>
     </Route>
     <Route

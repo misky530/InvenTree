@@ -7,15 +7,13 @@ import type { SettingsStateProps } from '@lib/types/Settings';
 import type { UserStateProps } from '@lib/types/User';
 import {
   IconBox,
-  IconBuildingFactory2,
   IconDashboard,
-  IconPackages,
-  IconShoppingCart,
-  IconTruckDelivery
+  IconPackages
 } from '@tabler/icons-react';
 import type { ReactNode } from 'react';
 import type { MenuLinkItem } from '../components/items/MenuLinks';
 import { StylishText } from '../components/items/StylishText';
+import { isWarehouseNavTab } from '../functions/warehouseMode';
 
 type NavTab = {
   name: string;
@@ -42,28 +40,11 @@ export function getNavTabs(user: UserStateProps): NavTab[] {
       title: t`Stock`,
       icon: <IconPackages />,
       role: UserRoles.stock
-    },
-    {
-      name: 'manufacturing',
-      title: t`Manufacturing`,
-      icon: <IconBuildingFactory2 />,
-      role: UserRoles.build
-    },
-    {
-      name: 'purchasing',
-      title: t`Purchasing`,
-      icon: <IconShoppingCart />,
-      role: UserRoles.purchase_order
-    },
-    {
-      name: 'sales',
-      title: t`Sales`,
-      icon: <IconTruckDelivery />,
-      role: UserRoles.sales_order
     }
   ];
 
   return navTabs.filter((tab) => {
+    if (!isWarehouseNavTab(tab.name)) return false;
     if (!tab.role) return true;
     return user.hasViewRole(tab.role);
   });

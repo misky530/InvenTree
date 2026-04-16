@@ -9,17 +9,13 @@ import {
 } from '@mantine/core';
 import {
   IconChevronDown,
-  IconInfoCircle,
   IconLogout,
   IconMoonStars,
-  IconSettings,
   IconSun,
-  IconUserBolt,
   IconUserCog
 } from '@tabler/icons-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/react/shallow';
-import { aboutInvenTree } from '../../defaults/links';
 import { doLogout } from '../../functions/auth';
 import * as classes from '../../main.css';
 import { useUserState } from '../../states/UserState';
@@ -27,9 +23,7 @@ import { vars } from '../../theme';
 
 export function MainMenu() {
   const navigate = useNavigate();
-  const [user, username] = useUserState(
-    useShallow((state) => [state.user, state.username])
-  );
+  const username = useUserState(useShallow((state) => state.username));
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
@@ -60,25 +54,6 @@ export function MainMenu() {
           >
             <Trans>User Settings</Trans>
           </Menu.Item>
-          {user?.is_staff && (
-            <Menu.Item
-              leftSection={<IconSettings />}
-              component={Link}
-              to='/settings/system'
-            >
-              <Trans>System Settings</Trans>
-            </Menu.Item>
-          )}
-          {user?.is_staff && (
-            <Menu.Item
-              leftSection={<IconUserBolt />}
-              component={Link}
-              to='/settings/admin'
-            >
-              <Trans>Admin Center</Trans>
-            </Menu.Item>
-          )}
-          {user?.is_staff && <Menu.Divider />}
           <Menu.Item
             onClick={toggleColorScheme}
             leftSection={
@@ -91,12 +66,6 @@ export function MainMenu() {
             }
           >
             <Trans>Change Color Mode</Trans>
-          </Menu.Item>
-          <Menu.Item
-            onClick={() => aboutInvenTree()}
-            leftSection={<IconInfoCircle />}
-          >
-            <Trans>About InvenTree</Trans>
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
